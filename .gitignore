@@ -24,3 +24,9 @@ package-lock.json
 *.njsproj
 *.sln
 *.sw?
+
+#common
+.env
+#backend
+backend/generated
+backend/prisma/migrations
