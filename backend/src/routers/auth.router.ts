@@ -1,9 +1,14 @@
-import express from "express";
-import {login, register} from "../controllers/auth.controller.ts";
+import { errorHandler } from "./../utils/errorHandler.ts";
+import express, { type Response } from "express";
+import authMiddleware from "../middlewares/auth.middleware.ts";
+import AuthController from "../controllers/auth.controller.ts";
 
 const authRouter = express.Router();
 
-authRouter.post('/register', register);
-authRouter.post('/login', login);
+authRouter.post("/register", errorHandler(AuthController.register));
+authRouter.post("/login", errorHandler(AuthController.login));
+authRouter.get("/userInfo", authMiddleware, (req, res: Response) => {
+  return res.status(200).json("Info");
+});
 
 export default authRouter;
