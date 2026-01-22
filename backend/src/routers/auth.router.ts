@@ -7,8 +7,6 @@ const authRouter = express.Router();
 
 authRouter.post("/register", errorHandler(AuthController.register));
 authRouter.post("/login", errorHandler(AuthController.login));
-authRouter.get("/userInfo", authMiddleware, (req, res: Response) => {
-  return res.status(200).json("Info");
-});
+authRouter.get("/logout", errorHandler(AuthController.logout));
 
 export default authRouter;

@@ -62,6 +62,10 @@ class AuthController extends BaseController {
 
     return loginData;
   }
+
+  logout() {
+    return BaseController.SendResponse(true, 200, null, "Logout is done!");
+  }
 }
 
 export default new AuthController();
