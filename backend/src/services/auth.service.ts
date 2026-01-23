@@ -62,3 +62,12 @@ export const loginUser = async (email: string, password: string) => {
     id: user.id,
   };
 };
+
+export const logoutUser = async (userId: string) => {
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      refreshTokenHash: null
+    }
+  })
+}

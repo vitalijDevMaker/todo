@@ -1,6 +1,5 @@
 import { errorHandler } from "./../utils/errorHandler.ts";
 import express, { type Response } from "express";
-import authMiddleware from "../middlewares/auth.middleware.ts";
 import AuthController from "../controllers/auth.controller.ts";
 
 const authRouter = express.Router();

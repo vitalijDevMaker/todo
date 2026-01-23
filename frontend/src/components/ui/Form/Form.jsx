@@ -1,13 +1,10 @@
-import { FormProvider, useForm } from "react-hook-form"
+import { FormProvider, useForm } from "react-hook-form";
 
-export const Form = ({children, onSumbit, customUseForm}) => {
-    const methods = customUseForm ? customUseForm : useForm();
-    return (
-        <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSumbit)}>
-                {children}
-            </form>
-        </FormProvider>
-
-    )
-}
+export const Form = ({ children, onSubmit, customUseForm }) => {
+  const methods = customUseForm || useForm();
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>
+    </FormProvider>
+  );
+};
