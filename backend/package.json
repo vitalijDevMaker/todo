@@ -1,6 +1,7 @@
 {
   "type": "module",
   "scripts": {
+    "lint:editorconfig": "editorconfig-checker",
     "dev": "nodemon -r dotenv/config --exec ts-node src/index.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
@@ -24,6 +25,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.0.9",
     "@types/pg": "^8.16.0",
+    "editorconfig-checker": "^6.1.1",
     "nodemon": "^3.1.11",
     "prisma": "^7.2.0",
     "ts-node": "^10.9.2",

@@ -1,5 +1,5 @@
-import type { NextFunction, Request, Response } from "express";
-import BaseController from "../controllers/base.controller.ts";
+import type { NextFunction, Request, Response } from 'express';
+import BaseController from '../controllers/base.controller.ts';
 
 export const errorHandler =
   (fn: (req: Request, res: Response, next: NextFunction) => Promise<any>) =>
@@ -8,7 +8,7 @@ export const errorHandler =
       await fn(req, res, next);
     } catch (error) {
       console.log(error);
-      let message = "Internal server error";
+      let message = 'Internal server error';
 
       if (error instanceof Error) {
         message = error.message;
