@@ -1,22 +1,18 @@
-import type { Request, Response } from "express";
-import { loginUser, registerUser } from "../services/auth.service.ts";
-import appConfig from "../app.config.ts";
-import BaseController from "./base.controller.ts";
+import type { Request, Response } from 'express';
+import appConfig from '../app.config.ts';
+import { loginUser, logoutUser, registerUser } from '../services/auth.service.ts';
+import BaseController from './base.controller.ts';
 
 class AuthController extends BaseController {
   public register = async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
 
     if (!email || !password) {
-      throw new Error("Missing required field");
+      throw new Error('Missing required field');
     }
 
     const user = await registerUser(name, email, password);
-    const { accessToken } = await this.loginAndSetRefreshToken(
-      res,
-      email,
-      password,
-    );
+    const { accessToken } = await this.loginAndSetRefreshToken(res, email, password);
 
     return BaseController.SendResponse(res, true, 200, {
       email: user.email,
@@ -30,14 +26,10 @@ class AuthController extends BaseController {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      throw new Error("Missing required field");
+      throw new Error('Missing required field');
     }
 
-    const { accessToken, id } = await this.loginAndSetRefreshToken(
-      res,
-      email,
-      password,
-    );
+    const { accessToken, id } = await this.loginAndSetRefreshToken(res, email, password);
 
     return BaseController.SendResponse(res, true, 200, {
       accessToken: accessToken,
@@ -46,25 +38,27 @@ class AuthController extends BaseController {
     });
   };
 
-  async loginAndSetRefreshToken(
-    res: Response,
-    email: string,
-    password: string,
-  ) {
+  private async loginAndSetRefreshToken(res: Response, email: string, password: string) {
     const loginData = await loginUser(email, password);
     console.log(loginData);
-    res.cookie("refreshToken", loginData.refreshToken, {
+    res.cookie('refreshToken', loginData.refreshToken, {
       httpOnly: true,
       secure: false,
-      sameSite: "strict",
+      sameSite: 'strict',
       maxAge: appConfig.refresh_token_expired * 24 * 60 * 60 * 1000,
     });
 
     return loginData;
   }
 
-  logout() {
-    return BaseController.SendResponse(true, 200, null, "Logout is done!");
+  public async logout(req: any, res: Response) {
+    const { userId } = req.body;
+
+    await logoutUser(userId);
+    res.clearCookie('refreshToken');
+    res.clearCookie('accessToken');
+
+    return BaseController.SendResponse(true, 200, null, 'Logout is done!');
   }
 }
 

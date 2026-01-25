@@ -1,7 +1,8 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Looking for ways to speed up your queries, or scale easily with your
+//serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
@@ -14,10 +15,22 @@ datasource db {
 }
 
 model User {
-  id               Int      @id @default(autoincrement())
+  id               String   @id @default(uuid())
   name             String
   email            String   @unique
   password         String
   refreshTokenHash String?
-  creatAt          DateTime @default(now())
+  createAt         DateTime @default(now())
+  events           Event[]
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  date        DateTime
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
