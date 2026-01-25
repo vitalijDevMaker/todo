@@ -20,6 +20,10 @@ insert_final_newline = true
 [*.{html,xml}]
 indent_size = 2
 
+[*.{yml}]
+indent_size = 2
+indent_style = space
+
 # Настройки для CSS / SCSS / LESS
 [*.{css,scss,less}]
 indent_size = 2
